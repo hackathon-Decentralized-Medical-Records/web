@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Providers } from "@/components/providers";
+import Header from "./header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Header />
         <Providers>{children}</Providers>
       </body>
     </html>

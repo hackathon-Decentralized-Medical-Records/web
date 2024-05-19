@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter as FontSans } from "next/font/google";
+import { cn } from "@/lib/utils";
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
-import { Providers } from "@/components/providers";
+
+import { Providers } from "./providers";
+import { ThemeProvider } from "@/components/theme-provider";
 import Header from "./header";
 
-const inter = Inter({ subsets: ["latin"] });
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "Medical History",
@@ -18,10 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        <Providers>{children}</Providers>
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <Providers>
+            <Header />
+            <main>{children}</main>
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

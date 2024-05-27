@@ -20,31 +20,34 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const { setTheme } = useTheme();
+  const pathname = usePathname();
+
+  const links = [
+    { name: "Home", href: "/" },
+    { name: "Appointment", href: "/appointment" },
+    { name: "Appointment List", href: "/appointment-list" },
+    { name: "Profile", href: "/profile" },
+  ];
 
   return (
     <header className="flex items-center justify-between px-36 py-4">
-      <Plane />
+      {/* <Plane /> */}
+      <Image src="/logo.png" width="30" height="30" alt="logo" />
       <NavigationMenu>
         <NavigationMenuList>
-          <NavigationMenuItem>
-            <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>首页</NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <Link href="/booking" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>预订</NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>我的</NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
+          {links.map((link) => (
+            <NavigationMenuItem key={link.href}>
+              <Button className={pathname !== link.href ? "text-inherit" : ""} asChild variant="link">
+                <Link href={link.href}>{link.name}</Link>
+              </Button>
+            </NavigationMenuItem>
+          ))}
         </NavigationMenuList>
       </NavigationMenu>
 

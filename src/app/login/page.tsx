@@ -8,15 +8,24 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { login } from "../actions";
+import { useContext } from "react";
+import { CurrentUserContext } from "../providers";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(1, "The password cannot be empty"),
   // email: z.string().email(),
   // role: z.number(),
 });
 
 export default function LoginPage() {
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { toast } = useToast();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,15 +35,15 @@ export default function LoginPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log("--");
-    console.log(values);
-
-    await fetch("http://119.29.239.184:8888/api/login", {
-      method: "post",
-      body: JSON.stringify(values),
+    const res = await login(values);
+    setCurrentUser({
+      ...res.data.user,
+      token: res.data.token,
     });
+    toast({
+      title: res.message,
+    });
+    setTimeout(() => router.push("/"), 800);
   }
 
   return (
@@ -55,7 +64,7 @@ export default function LoginPage() {
                   <FormControl>
                     <Input placeholder="username" {...field} />
                   </FormControl>
-                  <FormDescription>This is your public display name.</FormDescription>
+                  {/* <FormDescription>This is your public display name.</FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
@@ -67,9 +76,9 @@ export default function LoginPage() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="password" {...field} />
+                    <Input type="password" placeholder="password" {...field} />
                   </FormControl>
-                  <FormDescription>This is your public display name.</FormDescription>
+                  {/* <FormDescription>This is your public display name.</FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}

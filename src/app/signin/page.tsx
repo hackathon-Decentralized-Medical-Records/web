@@ -1,14 +1,19 @@
 "use client";
 
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { ModuleMain } from "@/abi/ModuleMain";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
+import { signIn } from "../actions";
+// import { myContractAbi } from "@/generated";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -18,6 +23,10 @@ const formSchema = z.object({
 });
 
 export default function SigninPage() {
+  const { address, isConnected } = useAccount();
+  const { writeContractAsync } = useWriteContract();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,15 +38,36 @@ export default function SigninPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log("--");
     console.log(values);
+    console.log(isConnected);
 
-    await fetch("http://119.29.239.184:8888/api/register", {
-      method: "post",
-      body: JSON.stringify({ ...values, role: +values.role }),
-    });
+    if (isConnected) {
+      // 1.请求合约
+      await writeContractAsync(
+        {
+          abi: ModuleMain,
+          address: "0xEe524AF17809c97F1C803b69BB0e20d414588aB1",
+          functionName: "addNewUserToSystem",
+          args: [+values.role],
+        },
+        {
+          async onSuccess(data, variables, context) {
+            console.log(data, variables, context);
+
+            // 2.请求后端
+            signIn({ ...values, role: +values.role });
+          },
+          onError(error, variables, context) {
+            console.log(error, variables, context);
+          },
+        },
+      );
+    } else {
+      toast({
+        title: "Please connect wallet",
+        description: "Please connect wallet",
+      });
+    }
   }
 
   return (
@@ -58,7 +88,7 @@ export default function SigninPage() {
                   <FormControl>
                     <Input placeholder="email" {...field} />
                   </FormControl>
-                  <FormDescription>This is your public display name.</FormDescription>
+                  {/* <FormDescription>This is your public display name.</FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
@@ -72,7 +102,7 @@ export default function SigninPage() {
                   <FormControl>
                     <Input type="password" placeholder="password" {...field} />
                   </FormControl>
-                  <FormDescription>This is your public display name.</FormDescription>
+                  {/* <FormDescription>This is your public display name.</FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
@@ -86,7 +116,7 @@ export default function SigninPage() {
                   <FormControl>
                     <Input placeholder="username" {...field} />
                   </FormControl>
-                  <FormDescription>This is your public display name.</FormDescription>
+                  {/* <FormDescription>This is your public display name.</FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
@@ -100,15 +130,15 @@ export default function SigninPage() {
                   <Select onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="role" />
+                        <SelectValue placeholder="Please select a role" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="0">患者</SelectItem>
-                      <SelectItem value="1">医生</SelectItem>
+                      <SelectItem value="0">patient</SelectItem>
+                      <SelectItem value="1">medic</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormDescription>This is your public display name.</FormDescription>
+                  {/* <FormDescription>This is your public display name.</FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}

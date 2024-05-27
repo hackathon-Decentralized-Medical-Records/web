@@ -7,6 +7,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { Providers } from "./providers";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "./header";
+import { Toaster } from "@/components/ui/toaster";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -25,13 +26,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
+      {/* bg-gradient-to-r from-[#fccb90] to-[#d57eeb] */}
+      <body className={cn("min-h-screen bg-background  font-sans antialiased", fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Providers>
             <Header />
             <main>{children}</main>
           </Providers>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

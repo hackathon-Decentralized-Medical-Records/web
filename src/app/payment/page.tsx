@@ -13,44 +13,44 @@ export default function Payment() {
   const leftCard = (
     <Card className="ml-12 w-[1300px]">
       <CardHeader>
-        <CardTitle className="mb-4">我的预订</CardTitle>
-        <CardDescription>请填写个人信息</CardDescription>
+        <CardTitle className="mb-4">My reservation</CardTitle>
+        <CardDescription>Please fill in personal information</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="mb-4 grid w-full grid-cols-2 items-center gap-4">
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">名字</Label>
-            <Input id="name" placeholder="请输入文本" />
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" placeholder="Please enter text" />
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="framework">性别</Label>
+            <Label htmlFor="framework">Gender</Label>
             <Select>
               <SelectTrigger id="framework">
-                <SelectValue placeholder="选择" />
+                <SelectValue placeholder="select" />
               </SelectTrigger>
               <SelectContent position="popper">
-                <SelectItem value="male">男</SelectItem>
-                <SelectItem value="female">女</SelectItem>
+                <SelectItem value="male">male</SelectItem>
+                <SelectItem value="female">female</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <div className="mb-4 grid w-full grid-cols-2 items-center gap-4">
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">出生日期</Label>
-            <Input id="name" placeholder="请输入日期" />
+            <Label htmlFor="name">Date of Birth:</Label>
+            <Input id="name" placeholder="Please enter the date" />
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="framework">国籍</Label>
+            <Label htmlFor="framework">nationality</Label>
             <Select>
               <SelectTrigger id="framework">
-                <SelectValue placeholder="选择" />
+                <SelectValue placeholder="select" />
               </SelectTrigger>
               <SelectContent position="popper">
-                <SelectItem value="male">中国</SelectItem>
-                <SelectItem value="female">美国</SelectItem>
-                <SelectItem value="female">英国</SelectItem>
-                <SelectItem value="female">加拿大</SelectItem>
+                <SelectItem value="male">China</SelectItem>
+                <SelectItem value="female">America</SelectItem>
+                <SelectItem value="female">Britain</SelectItem>
+                <SelectItem value="female">Canada</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -61,65 +61,66 @@ export default function Payment() {
             htmlFor="terms"
             className=" text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            确保病人的姓名与政府签发的身份证/护照上所写的一模一样 避免任何错误
+            Ensure that the patient's name is the same as that on the government issued ID card/passport to avoid any
+            mistakes
           </label>
         </div>
         <div className="mb-4 grid w-full grid-cols-2 items-center gap-4">
           <div className="flex flex-col space-y-1.5 ">
-            <Label htmlFor="name">身份证</Label>
-            <Input id="name" placeholder="请输入" />
+            <Label htmlFor="name">ID card</Label>
+            <Input id="name" placeholder="Please enter" />
           </div>
         </div>
         <div className="mb-4 grid w-full grid-cols-2 items-center gap-4">
           <div className="mb-4 flex flex-col space-y-1.5">
-            <Label htmlFor="name">身份证有效期</Label>
-            <Input id="name" placeholder="请输入日期" />
+            <Label htmlFor="name">Validity period of ID card</Label>
+            <Input id="name" placeholder="Please enter the date" />
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="framework">身份证类型</Label>
+            <Label htmlFor="framework">ID card type</Label>
             <Select>
               <SelectTrigger id="framework">
-                <SelectValue placeholder="选择" />
+                <SelectValue placeholder="select" />
               </SelectTrigger>
               <SelectContent position="popper">
-                <SelectItem value="male">居民身份证</SelectItem>
-                <SelectItem value="female">护照</SelectItem>
-                <SelectItem value="female">临时居民身份证</SelectItem>
-                <SelectItem value="female">外国人居留证 </SelectItem>
+                <SelectItem value="male">Resident ID card</SelectItem>
+                <SelectItem value="female">passport</SelectItem>
+                <SelectItem value="female">Temporary Resident Identity Card</SelectItem>
+                <SelectItem value="female">Foreigner's Residence Permit </SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
-        <div className="mb-4">联系人详细信息</div>
+        <div className="mb-4">Contact Details </div>
         <div className="mb-4 grid w-full grid-cols-2 items-center gap-4">
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">名字</Label>
-            <Input id="name" placeholder="请输入文本" />
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" placeholder="Please enter text" />
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="framework">性别</Label>
+            <Label htmlFor="framework">Gender</Label>
             <Select>
               <SelectTrigger id="framework">
-                <SelectValue placeholder="选择" />
+                <SelectValue placeholder="select" />
               </SelectTrigger>
               <SelectContent position="popper">
-                <SelectItem value="male">男</SelectItem>
-                <SelectItem value="female">女</SelectItem>
+                <SelectItem value="male">male</SelectItem>
+                <SelectItem value="female">female</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <div className="mb-4 flex flex-col space-y-1.5">
-          <Label htmlFor="name">电子邮件</Label>
-          <Input id="name" placeholder="请输入地址" />
+          <Label htmlFor="name">Email</Label>
+          <Input id="name" placeholder="Please enter the address" />
         </div>
         <div className=" lex mb-4 flex-col space-y-1.5">
-          <Label htmlFor="name">联系电话</Label>
-          <Input id="name" placeholder="请输入" />
+          <Label htmlFor="name">phone number</Label>
+          <Input id="name" placeholder="Please enter" />
         </div>
       </CardContent>
       <CardFooter className="flex justify-between ">
-        <Button variant="outline">提交</Button>
+        <Button variant="outline">Submit</Button>
       </CardFooter>
     </Card>
   );
@@ -129,11 +130,11 @@ export default function Payment() {
       <Card className="mb-4 h-auto w-96">
         <Card>
           <CardHeader>
-            <CardTitle>价格详情</CardTitle>
+            <CardTitle>Price details</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between">
-              <p>基本价格</p>
+              <p>Basic price</p>
               <span>$150</span>
             </div>
           </CardContent>
@@ -159,15 +160,15 @@ export default function Payment() {
       </Card>
       <Card className="h-auto w-96">
         <CardHeader>
-          <CardTitle>病例详情</CardTitle>
+          <CardTitle>Case details</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>电子病历公司</p>
+          <p>Electronic Medical Record Company</p>
         </CardContent>
         <CardContent>
           <div className="flex items-center justify-between">
-            <p>门诊内科</p>
-            <span>2024年2月9日</span>
+            <p>Outpatient Internal Medicine Department</p>
+            <span>February 9, 2024</span>
           </div>
         </CardContent>
         <CardContent>
@@ -182,18 +183,18 @@ export default function Payment() {
         </CardContent>
         <CardContent>
           <div className="flex items-center justify-between">
-            <p>$ 可退还</p>
+            <p>$ Refundable</p>
           </div>
         </CardContent>
-        <p className="mb-4">重新安排时间</p>
+        <p className="mb-4">Reschedule time</p>
         <Separator className="my-4" />
         <CardContent>
-          <p>电子病历公司</p>
+          <p>Electronic Medical Record Company</p>
         </CardContent>
         <CardContent>
           <div className="flex items-center justify-between">
-            <p>普外科</p>
-            <span>2024年2月10日</span>
+            <p>General Surgery Department</p>
+            <span>February 10, 2024</span>
           </div>
         </CardContent>
         <CardContent>
@@ -208,10 +209,10 @@ export default function Payment() {
         </CardContent>
         <CardContent>
           <div className="flex items-center justify-between">
-            <p>$ 可退还</p>
+            <p>$ Refundable</p>
           </div>
         </CardContent>
-        <p className="mb-4">重新安排时间</p>
+        <p className="mb-4">Reschedule time</p>
       </Card>
     </div>
   );

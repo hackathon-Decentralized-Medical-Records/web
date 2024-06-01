@@ -1,5 +1,5 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.suggest.paths": false,
-  "javascript.suggest.paths": false
+  "typescript.tsdk": "node_modules/typescript/lib"
+  // "typescript.suggest.paths": false,
+  // "javascript.suggest.paths": false
 }

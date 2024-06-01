@@ -1,18 +1,17 @@
 "use client";
 
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { login } from "../actions";
-import { useContext } from "react";
-import { CurrentUserContext } from "../providers";
 import { useToast } from "@/components/ui/use-toast";
+import { useUserStore } from "@/store/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { login } from "../actions";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -22,7 +21,8 @@ const formSchema = z.object({
 });
 
 export default function LoginPage() {
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const user = useUserStore();
+  // const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -36,14 +36,17 @@ export default function LoginPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const res = await login(values);
-    setCurrentUser({
-      ...res.data.user,
-      token: res.data.token,
-    });
+    console.log(res);
     toast({
       title: res.message,
     });
-    setTimeout(() => router.push("/"), 800);
+    if (res.code !== 500) {
+      user.setUser({
+        ...res.data.data.data,
+        token: res.data.token,
+      });
+      setTimeout(() => router.push("/"), 800);
+    }
   }
 
   return (
@@ -84,10 +87,15 @@ export default function LoginPage() {
               )}
             />
 
-            <Button type="submit">Submit</Button>
+            <Button type="submit">Login</Button>
           </form>
         </Form>
       </CardContent>
+      <CardFooter>
+        <Link className="text-primary" href="signin">
+          Go to SignIn
+        </Link>
+      </CardFooter>
     </Card>
   );
 }

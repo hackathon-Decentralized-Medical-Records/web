@@ -11,9 +11,9 @@ const imgUrl = "https://imgapi.cn/bing.php?rand=true";
 
 export default function Home() {
   return (
-    <>
+    <div className="container">
       {/* background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%); */}
-      <div className="form-[#fccb90]  h-[100vh] text-center">
+      <div className="form-[#fccb90] text-center">
         <div className="absolute left-0 right-0 top-[50%] translate-y-[-50%]">
           <div className="mb-4 text-lg font-semibold text-primary">Secure & Unified Healthcare Ecosystem</div>
           <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">HealthChain Nexus</h1>
@@ -23,7 +23,7 @@ export default function Home() {
           <Button size="sm">explore</Button>
         </div>
       </div>
-      <div className="px-36 py-16">
+      {/* <div className="container py-16">
         <div className="flex items-center justify-between ">
           <div className="flex items-center">
             <Ambulance />
@@ -51,7 +51,7 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <div className="px-36 py-16">
+      <div className="container py-16">
         <h1 className="text-center text-5xl font-bold">新闻</h1>
         <div className="my-10 grid grid-cols-3 gap-4">
           {[1, 2, 3].map(() => (
@@ -68,7 +68,7 @@ export default function Home() {
             </Card>
           ))}
         </div>
-      </div>
-    </>
+      </div> */}
+    </div>
   );
 }

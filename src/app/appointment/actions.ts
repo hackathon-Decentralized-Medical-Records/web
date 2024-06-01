@@ -23,3 +23,15 @@ export async function getMeidcList() {
 
   return res.json();
 }
+
+export async function registration(data: Record<string, any>) {
+  const res = await fetch("http://119.29.239.184:8888/api/registration", {
+    method: "post",
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}

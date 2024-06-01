@@ -1,11 +1,10 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
-import { useTheme } from "next-themes";
-import { darkTheme, getDefaultConfig, lightTheme, midnightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { RainbowKitProvider, darkTheme, getDefaultConfig, lightTheme } from "@rainbow-me/rainbowkit";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
 import { WagmiProvider } from "wagmi";
-import { mainnet, polygon, optimism, arbitrum, base, sepolia } from "wagmi/chains";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { arbitrum, base, mainnet, optimism, polygon, sepolia } from "wagmi/chains";
 
 const config = getDefaultConfig({
   appName: "My RainbowKit App",
@@ -23,28 +22,22 @@ const config = getDefaultConfig({
 
 const queryClient = new QueryClient();
 
-export const CurrentUserContext = createContext<Record<string, any>>({});
-
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<Record<string, any>>({});
-
   return (
-    <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
-      <WagmiProvider config={config}>
-        <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider
-            locale="en"
-            theme={{
-              lightMode: lightTheme(),
-              darkMode: darkTheme({
-                accentColor: "#c41f45",
-              }),
-            }}
-          >
-            {children}
-          </RainbowKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>
-    </CurrentUserContext.Provider>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider
+          locale="en"
+          theme={{
+            lightMode: lightTheme(),
+            darkMode: darkTheme({
+              accentColor: "#c41f45",
+            }),
+          }}
+        >
+          {children}
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }

@@ -1,25 +1,25 @@
 "use client";
 
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { ModuleMain } from "@/abi/ModuleMain";
-
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { useAccount, useWriteContract } from "wagmi";
+import { z } from "zod";
 import { signIn } from "../actions";
 // import { myContractAbi } from "@/generated";
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
-  username: z.string(),
-  role: z.string(),
+  password: z.string().min(1, "Please enter your password"),
+  username: z.string().min(1, "Please enter your username"),
+  role: z.string().min(1, "Please select a role"),
 });
 
 export default function SigninPage() {
@@ -39,29 +39,14 @@ export default function SigninPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    console.log(isConnected);
+    console.log(address);
 
     if (isConnected) {
-      // 1.请求合约
-      await writeContractAsync(
-        {
-          abi: ModuleMain,
-          address: "0xEe524AF17809c97F1C803b69BB0e20d414588aB1",
-          functionName: "addNewUserToSystem",
-          args: [+values.role],
-        },
-        {
-          async onSuccess(data, variables, context) {
-            console.log(data, variables, context);
-
-            // 2.请求后端
-            signIn({ ...values, role: +values.role });
-          },
-          onError(error, variables, context) {
-            console.log(error, variables, context);
-          },
-        },
-      );
+      // 请求后端
+      const res = await signIn({ ...values, role: +values.role, address });
+      toast({
+        title: res.msg,
+      });
     } else {
       toast({
         title: "Please connect wallet",
@@ -134,8 +119,8 @@ export default function SigninPage() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="0">patient</SelectItem>
-                      <SelectItem value="1">medic</SelectItem>
+                      <SelectItem value="1">patient</SelectItem>
+                      <SelectItem value="0">medic</SelectItem>
                     </SelectContent>
                   </Select>
                   {/* <FormDescription>This is your public display name.</FormDescription> */}
@@ -148,6 +133,11 @@ export default function SigninPage() {
           </form>
         </Form>
       </CardContent>
+      <CardFooter>
+        <Link className="text-primary" href="/login">
+          Go to Login
+        </Link>
+      </CardFooter>
     </Card>
   );
 }

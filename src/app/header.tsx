@@ -1,42 +1,42 @@
 "use client";
 
-import Link from "next/link";
-import { Plane, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-
+import { Button } from "@/components/ui/button";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu";
+import { useUserStore } from "@/store/user";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { Button, buttonVariants } from "@/components/ui/button";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { LogOut } from "lucide-react";
 
 export default function Header() {
-  const { setTheme } = useTheme();
+  // const { setTheme } = useTheme();
   const pathname = usePathname();
+  const user = useUserStore();
 
   const links = [
     { name: "Home", href: "/" },
     { name: "Appointment", href: "/appointment" },
     { name: "Appointment List", href: "/appointment-list" },
+    { name: "NFTs", href: "/nfts" },
     { name: "Profile", href: "/profile" },
   ];
 
+  const onSelect = (event: Event) => {
+    user.reset();
+  };
+
   return (
-    <header className="flex items-center justify-between px-36 py-4">
+    <header className="container flex items-center justify-between py-4">
       {/* <Plane /> */}
       <Image src="/logo.png" width="30" height="30" alt="logo" />
       <NavigationMenu>
@@ -52,7 +52,7 @@ export default function Header() {
       </NavigationMenu>
 
       <div className="flex items-center">
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
               <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -65,7 +65,24 @@ export default function Header() {
             <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
             <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
+        {user.ID ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">{user.username}</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onSelect={onSelect}>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button asChild>
+            <Link href="/login">Login</Link>
+          </Button>
+        )}
         <div className="ml-4">
           <ConnectButton />
         </div>

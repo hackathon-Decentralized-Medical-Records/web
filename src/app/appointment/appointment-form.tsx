@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { useUserStore } from "@/store/user";
@@ -22,9 +23,28 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { registration } from "./actions";
+import { Checkbox } from "@/components/ui/checkbox";
+
+const items = [
+  {
+    id: "2022-12-19",
+    label: "2022-12-19",
+  },
+  {
+    id: "2021-02-26",
+    label: "2021-02-26",
+  },
+  {
+    id: "2020-08-09",
+    label: "2020-08-09",
+  },
+] as const;
 
 const formSchema = z.object({
   date: z.date(),
+  record: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one item.",
+  }),
 });
 
 export default function AppointmentForm({ ID, name, profession, department, workTime, price }: Record<string, any>) {
@@ -34,6 +54,9 @@ export default function AppointmentForm({ ID, name, profession, department, work
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      record: ["2020-08-09"],
+    },
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -110,6 +133,58 @@ export default function AppointmentForm({ ID, name, profession, department, work
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="record"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Medical Record: </FormLabel>
+                  </div>
+                  {items.map((item) => (
+                    <FormField
+                      key={item.id}
+                      control={form.control}
+                      name="record"
+                      render={({ field }) => {
+                        return (
+                          <FormItem key={item.id} className="flex flex-row items-start space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(item.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, item.id])
+                                    : field.onChange(field.value?.filter((value) => value !== item.id));
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">{item.label}</FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                  <FormMessage />
+                </FormItem>
+                // <FormItem className="flex items-center">
+                //   <FormLabel>Medical Record: </FormLabel>
+                //   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                //     <FormControl>
+                //       <SelectTrigger className="w-[180px]">
+                //         <SelectValue placeholder="Select a verified email to display" />
+                //       </SelectTrigger>
+                //     </FormControl>
+                //     <SelectContent>
+                //       <SelectItem value="2020-12-01">2020-12-01</SelectItem>
+                //       <SelectItem value="2020-02-01">2020-08-01</SelectItem>
+                //       <SelectItem value="2020-02-10">2020-02-10</SelectItem>
+                //     </SelectContent>
+                //   </Select>
+                // </FormItem>
+              )}
+            />
+
             <FormItem>
               <FormLabel>Price: ${price}</FormLabel>
             </FormItem>

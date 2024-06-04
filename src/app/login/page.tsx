@@ -41,6 +41,8 @@ export default function LoginPage() {
       title: res.message,
     });
     if (res.code !== 500) {
+      console.log(user, "user");
+
       user.setUser({
         ...res.data.data.data,
         token: res.data.token,

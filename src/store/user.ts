@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 interface UserState {
   ID?: number;
-  username?: string;
+  name?: string;
   email?: string;
   role?: number;
   address?: string;
@@ -15,14 +15,21 @@ interface UserAction {
   reset: () => void;
 }
 
-const initialState: UserState = {};
+const initialState: UserState = {
+  ID: undefined,
+  name: undefined,
+  email: undefined,
+  role: undefined,
+  address: undefined,
+  token: undefined,
+};
 
 export const useUserStore = create<UserState & UserAction>()(
   persist(
     (set) => ({
       ...initialState,
       setUser: (data) => set((state) => data),
-      reset: () => set(initialState, true),
+      reset: () => set(initialState),
     }),
     {
       name: "bearStore",

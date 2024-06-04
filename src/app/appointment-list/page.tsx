@@ -1,3 +1,4 @@
+import { Label } from "@/components/ui/label";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 
@@ -22,6 +23,7 @@ interface AppointmentListProps {}
 export default async function AppointmentList({}: AppointmentListProps) {
   return (
     <div className="container mx-auto py-10">
+      <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">My Appointment</h2>
       <DataTable columns={columns} />
     </div>
   );

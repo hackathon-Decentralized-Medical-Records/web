@@ -25,10 +25,10 @@ export default function Header() {
 
   const links = [
     { name: "Home", href: "/" },
-    { name: "Appointment", href: "/appointment" },
+    // { name: "Appointment", href: "/appointment" },
     { name: "Appointment List", href: "/appointment-list" },
-    { name: "NFTs", href: "/nfts" },
-    { name: "Profile", href: "/profile" },
+    // { name: "NFTs", href: "/nfts" },
+    // { name: "Profile", href: "/profile" },
   ];
 
   const onSelect = (event: Event) => {
@@ -69,7 +69,7 @@ export default function Header() {
         {user.ID ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost">{user.username}</Button>
+              <Button variant="ghost">{user.name}</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onSelect={onSelect}>

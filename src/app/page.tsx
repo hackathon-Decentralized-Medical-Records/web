@@ -13,6 +13,7 @@ export default function Home() {
   return (
     <div className="container">
       {/* background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%); */}
+      <Image className="object-fil absolute bottom-0 left-0 right-0 top-0 -z-10" src="/bg.jpeg" alt="" fill></Image>
       <div className="form-[#fccb90] text-center">
         <div className="absolute left-0 right-0 top-[50%] translate-y-[-50%]">
           <div className="mb-4 text-lg font-semibold text-primary">Secure & Unified Healthcare Ecosystem</div>
